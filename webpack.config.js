@@ -21,12 +21,11 @@ const common = {
     rules: [
       loaders.babel, // Transpiler
       loaders.css, // Our bundle will contain the css
-      loaders.scss,
-      //loaders.font, //Load fonts
-    ]
-  },
+      //loaders.scss,
+      ]
+    },
 
-  resolve: {
+    resolve: {
     extensions: ['.js', '.jsx'] //the extensions to resolve
 
   }
@@ -36,15 +35,15 @@ let config;
 
 switch(process.env.NODE_ENV) {
   case 'build':
-    config = merge(
-      common,
+  config = merge(
+    common,
       { devtool: 'source-map'} //Source maps on separate file
-    );
+      );
   break;
 
   case 'development':
-    config = merge (
-      common,
+  config = merge (
+    common,
       {devtool: 'eval-source-map'}, //Default value
       loaders.devServer({
         host: process.env.host,

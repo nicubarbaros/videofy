@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 const Home = () => {
   return (
-    <div className={style.pageWrapper}>
+    <div>
       Hello
     </div>
   );

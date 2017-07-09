@@ -32,10 +32,10 @@ exports.css = {
 }
 
 
-exports.scss = {
-  test: /\.scss$/,
-  loaders: ['style-loader', 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader' ]
-}
+// exports.scss = {
+//   test: /\.scss$/,
+//   loaders: ['style-loader', 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader' ]
+// }
 
 
 // Babel loader
