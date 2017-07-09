@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 
+import FileSelect from '../../components/FileSelect';
 const Home = () => {
   return (
     <div>
-      Hello
+      <FileSelect/>
     </div>
-  );
+  )
 }
 export default Home;
