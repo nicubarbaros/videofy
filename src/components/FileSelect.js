@@ -6,7 +6,7 @@ class FileSelect extends Component {
     super(props);
 
     this.video = '';
-    this.canvas = '';
+    this.output = '';
 
     this.state = {
       src: ''
@@ -15,7 +15,7 @@ class FileSelect extends Component {
 
   componentDidMount() {
     this.video = document.getElementById('videoNode');
-    this.canvas = document.getElementById('canvas');
+    this.output = document.getElementById('output');
   }
 
   handleUploadFile = (e) => {
@@ -27,28 +27,31 @@ class FileSelect extends Component {
       }
     });
 
-    setTimeout(() => { this.screenshot(this.video, this.canvas)}, 100);
+    setTimeout(() => {this.screenshot(this.video, this.output)}, 100);
   }
 
-  screenshot (video, canvas) {
+  screenshot (video, output) {
+    let canvas = document.createElement('canvas');
     canvas.height = video.videoHeight;
     canvas.width = video.videoWidth;
-    var ctx = canvas.getContext("2d");
+    let ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     canvas.style.width = 'inherit';
     canvas.style.height = 'inherit';
+    output.src = canvas.toDataURL();
+    console.log(canvas);
+    return canvas;
   }
 
   render () {
     let src = this.state.src;
-    
+
     return (
       <div>
         <input type="file" accept="video/mp4" onChange={this.handleUploadFile} name="composer_photo[]" display="inline-block" role="button"/>
          
-        <video id="videoNode"  style={{display: 'none'}}  src={src} controls="controls">
-        </video>
-         <canvas id='canvas'></canvas>
+        <video id="videoNode"  style={{display: 'none'}}  src={src} controls="controls"></video>
+        <img id="output" alt="" src="" width="100" height="auto" class="img"/>
       </div>
     )
   }  
