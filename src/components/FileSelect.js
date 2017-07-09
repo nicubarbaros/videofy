@@ -6,16 +6,19 @@ class FileSelect extends Component {
     super(props);
 
     this.video = '';
-    this.output = '';
-
+    this.thumbs = '';
+    this.i = 0;
     this.state = {
-      src: ''
+      src: '',
+      name: ''
     };
+
+    this.handleUploadFile = this.handleUploadFile.bind(this);
   }
 
   componentDidMount() {
     this.video = document.getElementById('videoNode');
-    this.output = document.getElementById('output');
+    this.thumbs = document.getElementById('thumbs');
   }
 
   handleUploadFile = (e) => {
@@ -23,24 +26,49 @@ class FileSelect extends Component {
     let fileURL = URL.createObjectURL(videoFile)
     this.setState( () => {
       return {
-        src: fileURL
+        src: fileURL,
+        name: videoFile.name
       }
     });
 
-    setTimeout(() => {this.screenshot(this.video, this.output)}, 100);
+    this.video.currentTime = this.i;
+
+   setTimeout(() => {this.scroll()}, 100);
   }
 
-  screenshot (video, output) {
+  scroll = (e) => {
+
+    // Generate timestamp for 10 thumbnails
+    let timestamp = this.video.duration/10;
+
+    this.generateThumb(this.video, this.thumbs);
+    // when frame is captured, increase
+     this.i+= timestamp;
+
+    // if we are not passed end, seek to next interval
+    if (this.i <= this.video.duration) {
+        // this will trigger another seeked event
+        this.video.currentTime = this.i;
+    }
+    else {
+        // DONE!, next action
+    console.log("done!")
+    }
+  }
+
+  generateThumb (video, thumbs) {
     let canvas = document.createElement('canvas');
+    let thumb = new Image();
     canvas.height = video.videoHeight;
     canvas.width = video.videoWidth;
     let ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     canvas.style.width = 'inherit';
     canvas.style.height = 'inherit';
-    output.src = canvas.toDataURL();
-    console.log(canvas);
-    return canvas;
+    thumb.src = canvas.toDataURL("image/png");
+    thumb.alt = this.state.name;
+    thumb.width = 120;
+    thumbs.appendChild(thumb);
   }
 
   render () {
@@ -48,10 +76,10 @@ class FileSelect extends Component {
 
     return (
       <div>
-        <input type="file" accept="video/mp4" onChange={this.handleUploadFile} name="composer_photo[]" display="inline-block" role="button"/>
+        <input type="file" accept="video/mp4" onChange={this.handleUploadFile}  name="composer_photo[]" display="inline-block" role="button"/>
          
-        <video id="videoNode"  style={{display: 'none'}}  src={src} controls="controls"></video>
-        <img id="output" alt="" src="" width="100" height="auto" class="img"/>
+        <video id="videoNode"  onSeeked ={this.scroll} src={src} style={{display: "none"}} controls="controls"></video>
+        <div id="thumbs"/>
       </div>
     )
   }  
