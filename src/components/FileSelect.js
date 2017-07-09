@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Thumbs from './Thumb'
+
 class FileSelect extends Component {
 
   constructor(props) {
@@ -14,6 +16,7 @@ class FileSelect extends Component {
     };
 
     this.handleUploadFile = this.handleUploadFile.bind(this);
+    this.selectedThumb = this.selectedThumb.bind(this);
   }
 
   componentDidMount() {
@@ -27,59 +30,76 @@ class FileSelect extends Component {
     this.setState( () => {
       return {
         src: fileURL,
-        name: videoFile.name
+        name: videoFile.name,
+        loading: false
       }
     });
 
     this.video.currentTime = this.i;
 
-   setTimeout(() => {this.scroll()}, 100);
+    // change to async functions
+    setTimeout(() => {this.scroll()}, 100);
   }
 
   scroll = (e) => {
 
     // Generate timestamp for 10 thumbnails
-    let timestamp = this.video.duration/10;
+    let timestamp = this.video.duration/4;
+    this.i+= timestamp;
 
     this.generateThumb(this.video, this.thumbs);
-    // when frame is captured, increase
-     this.i+= timestamp;
 
-    // if we are not passed end, seek to next interval
     if (this.i <= this.video.duration) {
-        // this will trigger another seeked event
-        this.video.currentTime = this.i;
+      this.video.currentTime = this.i;
+
+      this.setState(() => {
+        return {
+          loading: true
+        }
+      })
     }
     else {
-        // DONE!, next action
-    console.log("done!")
+      this.setState(() => {
+        return {
+          loading: false
+        }
+      })
+      console.log("done!")
     }
   }
 
-  generateThumb (video, thumbs) {
-    let canvas = document.createElement('canvas');
-    let thumb = new Image();
+  generateThumb = (video, thumbs) => {
+    let canvas = document.createElement('canvas'),
+        thumb = new Image(),
+        ctx = canvas.getContext("2d");
+
     canvas.height = video.videoHeight;
     canvas.width = video.videoWidth;
-    let ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    canvas.style.width = 'inherit';
-    canvas.style.height = 'inherit';
+
+    this.appendThumbToDom(thumb, thumbs, canvas);
+  }
+
+  appendThumbToDom = (thumb, thumbs, canvas) => {
     thumb.src = canvas.toDataURL("image/png");
     thumb.alt = this.state.name;
     thumb.width = 120;
     thumbs.appendChild(thumb);
   }
 
+  selectedThumb = (e) => {
+    let thumb = e.target;
+    thumb.className = "selected";
+  }
+
   render () {
     let src = this.state.src;
-
+    console.log(this.state)
     return (
       <div>
-        <input type="file" accept="video/mp4" onChange={this.handleUploadFile}  name="composer_photo[]" display="inline-block" role="button"/>
-         
-        <video id="videoNode"  onSeeked ={this.scroll} src={src} style={{display: "none"}} controls="controls"></video>
-        <div id="thumbs"/>
+        <input type="file" accept="video/mp4" onChange={this.handleUploadFile} display="inline-block" role="button"/>
+        <video id="videoNode"  onSeeked ={this.scroll} src={src} style={{display: "none"}}></video>
+        <Thumbs selectedThumb={this.selectedThumb}/>
       </div>
     )
   }  
