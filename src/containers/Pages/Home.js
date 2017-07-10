@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import Preview from '../../components/Preview'
+import Loader from '../../components/Loader'
+import Modal from '../../components/Modal'
 import Thumbs from '../../components/Thumb'
 
 class Home extends Component {
@@ -14,8 +17,10 @@ class Home extends Component {
     this.state = {
       src: '',
       name: '',
+      thumbs: [],
+      selected: null,
       loading: false,
-      thumbs: []
+      openModal: false
     };
 
     this.handleUploadFile = this.handleUploadFile.bind(this);
@@ -47,12 +52,13 @@ class Home extends Component {
   scroll = (e) => {
 
     // Generate timestamp for 10 thumbnails
-    let timestamp = this.video.duration/4;
+    let timestamp = this.video.duration/10;
     this.i+= timestamp;
 
-    this.generateThumb(this.video, this.thumbs);
 
     if (this.i <= this.video.duration) {
+
+      this.generateThumb(this.video, this.thumbs);
       this.video.currentTime = this.i;
 
       this.setState(() => ({ loading: true }))
@@ -82,25 +88,33 @@ class Home extends Component {
       alt: alt
     }
 
-    this.setState((prevState) => ({
-      thumbs: prevState.thumbs.concat([newObject])
-    }));
+    this.setState((prevState) => ( {thumbs: prevState.thumbs.concat([newObject])} ));
   }
-
 
   selectedThumb = (e) => {
     let thumb = e.target;
-    thumb.className = "selected";
+    this.setState(() => ( {selected: thumb.src} ))
+  }
+
+  openModal = (e) => {
+    this.setState(() => ( {openModal: true} ))
   }
 
   render () {
     let src = this.state.src;
-    
+    console.log(this.state)
     return (
       <div>
         <input type="file" accept="video/mp4" onChange={this.handleUploadFile} display="inline-block" role="button"/>
         <video id="videoNode"  onSeeked ={this.scroll} src={src} style={{display: "none"}}></video>
-        <Thumbs thumbs={this.state.thumbs} selectedThumb={this.selectedThumb}/>
+        {this.state.loading
+          ? <Loader text="Extracting video thumbs"/>
+          : <Thumbs thumbs={this.state.thumbs} onSelect={this.selectedThumb} selectedThumb={this.state.selected}/>}
+        
+        {!this.state.selected
+          ? <div>Empty</div>
+          : <Preview src={this.state.selected} openVideo={this.openModal}/>}
+        {this.state.openModal && <Modal/>}
       </div>
     )
   }  

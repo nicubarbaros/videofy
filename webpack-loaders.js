@@ -11,19 +11,19 @@ exports.devServer = function(options) {
       hot: true,
       inline: true,
       stats: 'errors-only',
-            host: options.host, // http://localhost
-            port: options.port, // 3000
-            contentBase: './dist',
-          },
+      host: options.host, // http://localhost
+      port: options.port, // 3000
+      contentBase: './dist',
+    },
 
-          plugins: [
-          new ExtractTextPlugin("style.css"),
-          new webpack.HotModuleReplacementPlugin({
-            multistep: true
-          })
-          ]
-        };
-      }
+    plugins: [
+      new ExtractTextPlugin("style.css"),
+      new webpack.HotModuleReplacementPlugin({
+        multistep: true
+      })
+    ]
+  };
+}
 
 // the css loader
 exports.css = {
@@ -32,11 +32,17 @@ exports.css = {
 }
 
 
-// exports.scss = {
-//   test: /\.scss$/,
-//   loaders: ['style-loader', 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader' ]
-// }
+exports.scss = {
+    test: /\.scss$/,
+    loaders: ['style-loader', 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader' ]
+}
 
+
+// The file loader
+exports.font = {
+  test: /\.ttf$/,
+  loaders: ['file-loader']
+}
 
 // Babel loader
 exports.babel = {
@@ -44,6 +50,7 @@ exports.babel = {
   exclude: /(node_modules|bower_components)/,
   loader: 'babel-loader',
   query: {
+    presets: ['react', 'es2015', 'stage-0'],
     plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties'],
   }
 };
