@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import style from '../../assets/stylesheets/base.scss';
+
 let styles = {
   thumb: {
-    width: '250px',
+    width: '100px',
     height: 'auto'
   },
 
   selected: {
-    width: '250px',
+    width: '100px',
     height: 'auto',
     border: '2px solid red'
   }
@@ -26,7 +28,7 @@ const Thumbs = (props) => {
       ));
 
   return (
-    <div id="thumbs" onClick={props.onSelect}>
+    <div id="thumbs" onClick={props.onSelect} className={style.thumbsWrapper}>
       { thumbs }
     </div>
   );

@@ -114,7 +114,7 @@ class Home extends Component {
         {!this.state.selected
           ? <div>Empty</div>
           : <Preview src={this.state.selected} openVideo={this.openModal}/>}
-        {this.state.openModal && <Modal/>}
+        {this.state.openModal && <Modal src={this.state.src}/>}
       </div>
     )
   }  
