@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import style from '../../assets/stylesheets/base.scss';
-
 let styles = {
   thumb: {
     margin: '50px 0',
@@ -30,7 +28,7 @@ const Thumbs = (props) => {
       ));
 
   return (
-    <div id="thumbs" onClick={props.onSelect} className={style.thumbsWrapper}>
+    <div id="thumbs" onClick={props.onSelect} className="thumbs--wrapper">
       { thumbs }
     </div>
   );

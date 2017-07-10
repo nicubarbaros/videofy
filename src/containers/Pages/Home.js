@@ -15,8 +15,7 @@ class Home extends Component {
     this.i = 0;
 
     this.state = {
-      src: '',
-      name: '',
+      meta: {},
       thumbs: [],
       selected: null,
       loading: false,
@@ -38,10 +37,14 @@ class Home extends Component {
     let videoFile = e.target.files[0];
     let fileURL = URL.createObjectURL(videoFile)
 
+    let videoMeta = this.generateVideoMeta(videoFile);
+
     this.setState( () => {
       return {
-        src: fileURL,
-        name: videoFile.name,
+        meta: {
+          src: fileURL,
+          ...videoMeta
+        }
       }
     });
 
@@ -71,6 +74,14 @@ class Home extends Component {
     }
   }
 
+  generateVideoMeta(video){
+    return {
+      name: video.name,
+      size: video.size,
+      type: video.type
+    }
+  }
+  
   generateThumb = (video, thumbs) => {
     let canvas = document.createElement('canvas'),
         ctx = canvas.getContext("2d");
@@ -107,12 +118,12 @@ class Home extends Component {
   }
 
   render () {
-    let src = this.state.src;
+    let meta = this.state.meta;
     console.log(this.state)
     return (
       <div>
         <input type="file" accept="video/mp4" onChange={this.handleUploadFile} display="inline-block" role="button"/>
-        <video id="videoNode"  onSeeked ={this.scroll} src={src} style={{display: "none"}}></video>
+        <video id="videoNode"  onSeeked ={this.scroll} src={meta.src} style={{display: "none"}}></video>
         {this.state.loading
           ? <Loader text="Extracting video thumbs"/>
           : <Thumbs thumbs={this.state.thumbs} onSelect={this.selectedThumb} selectedThumb={this.state.selected}/>}
@@ -120,7 +131,7 @@ class Home extends Component {
         {!this.state.selected
           ? <div>Empty</div>
           : <Preview src={this.state.selected} openModal={this.openModal}/>}
-        {this.state.openModal && <Modal src={this.state.src} closeModal={this.closeModal}/>}
+        {this.state.openModal && <Modal meta={meta} closeModal={this.closeModal}/>}
       </div>
     )
   }  

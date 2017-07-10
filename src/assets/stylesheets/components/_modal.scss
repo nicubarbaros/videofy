@@ -14,7 +14,7 @@
   background-color: rgba(199, 199, 199, 0.9);
 }
 
-.modalContent {
+.modal--content {
   background-color: #000;
   box-shadow: 0 4px 80px 6px rgba(0, 0, 0, .85);
   margin: 15% auto;
@@ -23,11 +23,11 @@
   
   display: flex;
 
-  .videoSection {
+  .video--section {
     flex: 3
   }
 
-  .infoSection {
+  .info--section {
     padding: 20px;
     background-color: #fff;
     flex: 1

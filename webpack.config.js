@@ -22,6 +22,8 @@ const common = {
       loaders.babel, // Transpiler
       loaders.css, // Our bundle will contain the css
       loaders.scss,
+      loaders.font,
+      loaders.font2
       ]
     },
 

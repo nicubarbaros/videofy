@@ -2,23 +2,36 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import style from '../../assets/stylesheets/base.scss';
+import VideoPlayer from '../VideoPlayer'
 
-
+import videojs from 'video.js'
 
 class Modal extends PureComponent {
 
   
   render () {
+
+    let meta = this.props.meta;
+
+
+    const videoJsOptions = {
+      autoplay: true,
+      controls: true,
+      sources: [{
+        src: meta.src,
+        type: 'video/mp4'
+      }]
+    }
+
     return(
-      <div id="myModal" class={style.modal}>
-        <div class={style.modalContent}>
-          <span onClick={this.props.closeModal} class={style.close}>&times;</span>
-          <div class={style.videoSection}>
-            <video id="videoNode" src={this.props.src} controls autoPlay></video>
+      <div id="myModal" class="modal">
+        <div class="modal--content">
+          <span onClick={this.props.closeModal} class="close">&times;</span>
+          <div class="video--section">
+            <VideoPlayer { ...videoJsOptions } />
           </div>
-          <div class={style.infoSection}>
-            name
+          <div class="info--section">
+            {meta.name}
           </div>
         </div>
 
@@ -28,8 +41,8 @@ class Modal extends PureComponent {
 }
 
 Modal.propTypes = {
-  text: PropTypes.string,
-  speed: PropTypes.number
+  meta: PropTypes.object.isRequired,
+  closeModal: PropTypes.func.isRequired
 };
 
 Modal.defaultProps = {
@@ -38,3 +51,4 @@ Modal.defaultProps = {
 };
 
 export default Modal;
+

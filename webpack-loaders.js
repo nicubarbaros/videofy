@@ -28,21 +28,27 @@ exports.devServer = function(options) {
 // the css loader
 exports.css = {
   test: /\.css$/,
-  loaders: ['style-loader', 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'],
+  loader: "style-loader!css-loader"
 }
 
 
 exports.scss = {
     test: /\.scss$/,
-    loaders: ['style-loader', 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader' ]
+    loader: 'style-loader!css-loader!sass-loader'
 }
 
 
 // The file loader
 exports.font = {
-  test: /\.ttf$/,
-  loaders: ['file-loader']
+  test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    loader: 'url-loader?limit=10000&mimetype=application/font-woff'
 }
+
+exports.font2 = {
+   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    loader: 'file-loader'
+}
+
 
 // Babel loader
 exports.babel = {

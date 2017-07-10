@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Home } from '../Pages/index';
 import classnames from 'classnames';
 
+import '../../assets/stylesheets/base.scss';
+
 let styles = {
   mainWrapper: {
     maxWidth: '1200px',
