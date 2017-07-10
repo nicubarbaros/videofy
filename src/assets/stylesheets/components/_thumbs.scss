@@ -4,3 +4,9 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+img {
+  &:hover {
+    cursor: pointer;
+  }
+}

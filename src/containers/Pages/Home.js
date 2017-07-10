@@ -78,10 +78,10 @@ class Home extends Component {
     return {
       name: video.name,
       size: video.size,
-      type: video.type
+      type: video.type,
     }
   }
-  
+
   generateThumb = (video, thumbs) => {
     let canvas = document.createElement('canvas'),
         ctx = canvas.getContext("2d");
@@ -119,6 +119,7 @@ class Home extends Component {
 
   render () {
     let meta = this.state.meta;
+
     console.log(this.state)
     return (
       <div>
@@ -131,7 +132,7 @@ class Home extends Component {
         {!this.state.selected
           ? <div>Empty</div>
           : <Preview src={this.state.selected} openModal={this.openModal}/>}
-        {this.state.openModal && <Modal meta={meta} closeModal={this.closeModal}/>}
+        {this.state.openModal && <Modal poster={this.state.selected} meta={meta} closeModal={this.closeModal}/>}
       </div>
     )
   }  

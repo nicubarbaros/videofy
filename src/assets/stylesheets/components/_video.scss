@@ -3,6 +3,10 @@
 }
 
 .video-js {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .vjs-tech {
     position: relative;
   }
@@ -49,7 +53,13 @@
   .vjs-control-bar {
     bottom: 10px;
   }
+
+  .vjs-big-play-button {
+    top: auto;
+    left: auto;
+  }
 }
+
 .vjs-mouse-display .vjs-time-tooltip {
     background-color: rgba(0, 0, 0, 0.3);
 }

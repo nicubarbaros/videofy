@@ -12,15 +12,17 @@ class Modal extends PureComponent {
   render () {
 
     let meta = this.props.meta;
+    let poster = this.props.poster;
 
 
     const videoJsOptions = {
-      autoplay: true,
+      autoplay: false,
       controls: true,
       sources: [{
         src: meta.src,
-        type: 'video/mp4'
-      }]
+        type: meta.type,
+      }],
+      poster: poster
     }
 
     return(
