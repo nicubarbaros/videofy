@@ -1,12 +1,67 @@
+.radius {
+  border-radius: 4px;
+}
+
 .video-js {
   .vjs-tech {
     position: relative;
   }
+  
+  .vjs-progress-holder {
+    @extend .radius;
+    height: 0.8em;
+  }
 
+  .vjs-control-bar {
+    background: transparent;
+  }
+
+  .vjs-play-progress {
+    @extend .radius;
+    background-color: #4080ff;
+
+    &:before {
+      font-size: 2em
+    }
+
+    .vjs-time-tooltip {
+      display: none !important;
+    }
+  }
+  
+  .vjs-slider {
+    background-color: #c4d2e7;
+    background-color: rgba(255, 255, 255, .4);
+    box-shadow: 0 1px 4px rgba(20, 22, 26, .3);
+  }
+
+  .vjs-load-progress,
+  .vjs-load-progress div {
+    background-color: #c4d2e7;
+    background-color: rgba(255, 255, 255, .5);
+   @extend .radius;
+  }
+
+  .vjs-volume-level {
+    background-color: #4080ff;
+  }
+}
+.vjs-mouse-display .vjs-time-tooltip {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .vjs_video_3-dimensions,
 .video-js {
     width: auto;
     height: auto;
+}
+
+
+.video-js .vjs-progress-control:hover .vjs-progress-holder {
+  font-size: 1em;
+}
+
+.video-js .vjs-progress-control:hover .vjs-time-tooltip,
+.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+  font-size: 1em;
 }
