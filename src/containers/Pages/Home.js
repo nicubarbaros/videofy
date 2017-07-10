@@ -25,6 +25,8 @@ class Home extends Component {
 
     this.handleUploadFile = this.handleUploadFile.bind(this);
     this.selectedThumb = this.selectedThumb.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -100,6 +102,10 @@ class Home extends Component {
     this.setState(() => ( {openModal: true} ))
   }
 
+  closeModal = (e) => {
+    this.setState(() => ( {openModal: false} ))
+  }
+
   render () {
     let src = this.state.src;
     console.log(this.state)
@@ -113,8 +119,8 @@ class Home extends Component {
         
         {!this.state.selected
           ? <div>Empty</div>
-          : <Preview src={this.state.selected} openVideo={this.openModal}/>}
-        {this.state.openModal && <Modal src={this.state.src}/>}
+          : <Preview src={this.state.selected} openModal={this.openModal}/>}
+        {this.state.openModal && <Modal src={this.state.src} closeModal={this.closeModal}/>}
       </div>
     )
   }  

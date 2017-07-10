@@ -13,8 +13,13 @@ class Modal extends PureComponent {
     return(
       <div id="myModal" class={style.modal}>
         <div class={style.modalContent}>
-          <span class={style.close}>&times;</span>
-          <video id="videoNode" src={this.props.src} controls autoplay></video>
+          <span onClick={this.props.closeModal} class={style.close}>&times;</span>
+          <div class={style.videoSection}>
+            <video id="videoNode" src={this.props.src} controls autoPlay></video>
+          </div>
+          <div class={style.infoSection}>
+            name
+          </div>
         </div>
 
       </div>

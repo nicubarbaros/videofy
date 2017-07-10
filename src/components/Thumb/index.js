@@ -5,11 +5,13 @@ import style from '../../assets/stylesheets/base.scss';
 
 let styles = {
   thumb: {
+    margin: '50px 0',
     width: '100px',
     height: 'auto'
   },
 
   selected: {
+    margin: '50px 0',
     width: '100px',
     height: 'auto',
     border: '2px solid red'
