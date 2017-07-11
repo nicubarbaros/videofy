@@ -5,6 +5,7 @@ import Loader from '../../components/Loader'
 import Modal from '../../components/Modal'
 import Thumbs from '../../components/Thumb'
 
+import * as utils from '../../utils/utils'
 class Home extends Component {
 
   constructor(props) {
@@ -60,7 +61,6 @@ class Home extends Component {
     let timestamp = this.video.duration/10;
     this.i+= timestamp;
 
-
     if (this.i <= this.video.duration) {
 
       this.generateThumb(this.video, this.thumbs);
@@ -69,14 +69,27 @@ class Home extends Component {
       this.setState(() => ({ loading: true }))
     }
     else {
-      this.setState(() => ({ loading: false} ))
-      console.log("done!")
+      let formatedTime = utils.secToMin(this.video.duration);
+      let time = {
+        duration: utils.formatText(formatedTime)
+      }
+
+      let meta = this.state.meta;
+      let duration = Object.assign({}, meta, time)
+
+      this.setState(() => ({ 
+        loading: false,
+        meta: {
+            ...duration
+          }
+      }))
     }
   }
 
   generateVideoMeta(video){
+    let title = utils.formatText(video.name);
     return {
-      name: video.name,
+      name: title,
       size: video.size,
       type: video.type,
     }
@@ -119,19 +132,17 @@ class Home extends Component {
 
   render () {
     let meta = this.state.meta;
-
-    console.log(this.state)
+    console.log(this.state);
     return (
       <div>
         <input type="file" accept="video/mp4" onChange={this.handleUploadFile} display="inline-block" role="button"/>
         <video id="videoNode"  onSeeked ={this.scroll} src={meta.src} style={{display: "none"}}></video>
+
         {this.state.loading
           ? <Loader text="Extracting video thumbs"/>
           : <Thumbs thumbs={this.state.thumbs} onSelect={this.selectedThumb} selectedThumb={this.state.selected}/>}
-        
-        {!this.state.selected
-          ? <div>Empty</div>
-          : <Preview src={this.state.selected} openModal={this.openModal}/>}
+
+        {this.state.selected && <Preview src={this.state.selected} openModal={this.openModal} meta={this.state.meta}/>}
         {this.state.openModal && <Modal poster={this.state.selected} meta={meta} closeModal={this.closeModal}/>}
       </div>
     )
