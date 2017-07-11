@@ -75,7 +75,8 @@ class Home extends Component {
       }
 
       let meta = this.state.meta;
-      let duration = Object.assign({}, meta, time)
+      let aspectRatio = this.getVideoAspectRatio(this.video);
+      let duration = Object.assign({}, meta, time, aspectRatio)
 
       this.setState(() => ({ 
         loading: false,
@@ -86,12 +87,20 @@ class Home extends Component {
     }
   }
 
-  generateVideoMeta(video){
+  generateVideoMeta(video, videoTag){
     let title = utils.formatText(video.name);
+    let size = utils.convertToMB(video.size, 1);
     return {
       name: title,
-      size: video.size,
+      size: size,
       type: video.type,
+    }
+  }
+
+  getVideoAspectRatio(video){
+    return {
+      width: video.videoWidth,
+      height: video.videoHeight
     }
   }
 
@@ -132,10 +141,9 @@ class Home extends Component {
 
   render () {
     let meta = this.state.meta;
-    console.log(this.state);
     return (
       <div>
-        <input type="file" accept="video/mp4" onChange={this.handleUploadFile} display="inline-block" role="button"/>
+        <input type="file" accept="video/mp4" onChange={this.handleUploadFile}/>
         <video id="videoNode"  onSeeked ={this.scroll} src={meta.src} style={{display: "none"}}></video>
 
         {this.state.loading

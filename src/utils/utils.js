@@ -17,4 +17,13 @@ const secToMin = (time) =>{
     return formatedTime;
 }
 
-export { formatText, secToMin }
+const convertToMB = (bytes,decimals) => {
+    if(bytes == 0) return '0 Bytes';
+    let k = 1000,
+        dm = decimals || 2,
+        i = 2;
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+}
+
+
+export { formatText, secToMin, convertToMB }

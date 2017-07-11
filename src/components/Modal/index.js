@@ -33,7 +33,11 @@ class Modal extends PureComponent {
             <VideoPlayer { ...videoJsOptions } />
           </div>
           <div class="info--section">
-            {meta.name}
+            <h4>Title: {meta.name} </h4>
+            <p>Duration: {meta.duration} </p>
+            <p>Resolution: {meta.width} x {meta.height} </p>
+            <p>Size: {meta.size} mb</p>
+            <p>Type: {meta.type}</p>
           </div>
         </div>
 
